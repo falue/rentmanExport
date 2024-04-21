@@ -111,6 +111,11 @@ def update_progress(current, total, files_download):
 if __name__ == '__main__':
     JWT_TOKEN = load_jwt_token('JWT_TOKEN')
 
+    if(testing > 0):
+        print(f"Limit export of {testing} equipment. Change in the code to any other integer or to 0 if you want to export everything.")
+    else:
+        print(f"Reading database, export everything.")
+
     root_folder = 'equipmentDump'
     os.makedirs(root_folder, exist_ok=True)  # Create root directory
 
