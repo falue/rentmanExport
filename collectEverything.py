@@ -67,6 +67,15 @@ def get_all_equipment():
     response = requests.get(url, headers=headers)
     return response.json()
 
+# Function to get specific equipment
+def get_equipment(equipment_id):
+    url = f"{BASE_URL}/equipment/{equipment_id}"
+    headers = {
+        'Authorization': f"Bearer {JWT_TOKEN}"
+    }
+    response = requests.get(url, headers=headers)
+    return response.json()
+
 # Function to get files for a specific equipment item
 def get_equipment_files(equipment_id):
     url = f"{BASE_URL}/equipment/{equipment_id}/files"
@@ -155,6 +164,13 @@ if __name__ == '__main__':
         if(item.get('in_archive')):
             folder_path = os.path.join(root_folder, "_archived", folder_name)
         os.makedirs(folder_path, exist_ok=True)
+
+        # Get additional details that is not delivered by "Get equipment collection" call
+        item_details = get_equipment(equipment_id)
+        # item["country_of_origin"] = item_details["data"]["country_of_origin"]  # country_of_origin is not available somehow
+        item["current_quantity_excl_cases"] = item_details["data"]["current_quantity_excl_cases"]
+        item["current_quantity"] = item_details["data"]["current_quantity"]
+        item["quantity_in_cases"] = item_details["data"]["quantity_in_cases"]
 
         # Save all data to JSON
         data_file_path = os.path.join(folder_path, 'data.json')
