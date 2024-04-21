@@ -1,21 +1,21 @@
 # EXPORT DATA FROM RENTMAN
 
-Because rentman does not allow to export your equipment data in a smart way, this script exports them smart as `json`, `md` and `PDF`. 
+Because rentman does not allow to export your equipment data in a smart way, this script exports them smart as `json`, `md` and `PDF` to save locally or use it in your own frontend. 
 
-Specifically, the export formats provided .xls and .csv are missing one important aspect: The Files associated with an equipment (Images, PDFs).
+Specifically, the export formats provided by rentman frontend is .xls and .csv - those are missing one important aspect: The Files associated with an equipment (Images, PDFs).
 
 The categories with which any equipment is associated is also added to the output.
 
 The images are saved in best possible quality.
 
 You'll need a JWT_TOKEN, accessible via rentman interface (Configuration > Extensions > API > Connect and then Show Token).
-Put the token in a File named "JWT_TOKEN" (without file extension), put it in the same folder as the python script.
+Put the token in a File named `JWT_TOKEN` (without file extension), put it in the same folder as the python script.
 
 ## Test your connection to rentman
 ```
 python3 checkAuth.py
 ```
-will output `API call successful, yeah!` if it worked, `API call failed.` and some details about why if not.
+will output `API call successful, yeah!` if it worked, or `API call failed` and some details about why.
 
 ## Use it
 ```
@@ -24,13 +24,18 @@ python3 collectEverything.py
 
 ## Output
 This script saves all your equipments and files in a folder named "equipmentDump".
-Therein will be created a fodler named like this:
+Therein will be created a folder named like this:
 
 ```
-itemCode_itemQrcodes_equipment_name
+code_qrcodes_equipment name
 ```
+eg.
+```
+33_10000666_Wardrobe - red
+```
+Its name is the "code" and the "qrcode" combined with the hjuman readable title with umlaute and spaces. So don't name equipment with file system conflicting characters (i.e. don't use `&`, `/` or `'`)
 
-*Notice* that the folder name does not include the `ID` of the item, as this is pretty much unusable for search in the rentman frontend.
+*Notice* that the folder name does not include the `ID` of the item, as this is pretty much unusable for search in the rentman frontend and only used internally by them.
 
 Additional files will be created within that folder. An example output:
 ```
@@ -39,20 +44,20 @@ equipmentDump/
     33_10000666_Wardrobe - red/
         data.md
         data.json
+        33_10000666_Wardrobe - red.pdf
         78374rm4_photo-1.jpg
         78374rm4_photo-2.jpg
         78374rm4_photo-3.jpg
         78374rm4_photo-4.jpg
         78374rm4_photo-5.jpg
         78374rm4_photo-6.jpg
-        33_10000666_Wardrobe - red.pdf
     34_10000789_Wardrobe - blue/
-    35_10000963_Hat stand/
+    35_10000963_Hat stand ugly/
 ```
 
-- The `data.json` contains all the data in a computer-friendly way for further programming and shenanigans.
+- The `data.json` contains all the data in a computer-friendly way for further programming and shenanigans. This includes, additionally to the rentman specs, data about all the images/files associated with the euqipment as well as a human readable category-path.
 - The `data.md` contains all the data in a human readable and editable way.
-- and the `PDF` contains contains all the data in a human readable and non-editable way.
+- The `PDF` contains all the data in a human readable, printable and non-editable way. Also includes a link to the original file location stored on an amazonS3 server by rentman.
 
 Also, an "equipmentDump/_archived" is created which contains all archived equipments.
 
