@@ -112,8 +112,24 @@ def convert_md_to_pdf(md_file_path, output_pdf_path, resource_path):
         print("\nAn error occurred while generating PDF; skipping:", e)
 
 # Function to update the progress in the console
-def update_progress(current, total, files_download):
-    sys.stdout.write('\rCollecting Equipment Files... {}/{}, {} file(s)'.format(current, total, files_download))
+def update_progress(current, total, files_download, filename):
+    """
+    Update and display the progress of data collection and file creation in the terminal.
+    """
+    # Calculate the percentage of completion
+    percent_complete = (current / total) * 100
+    # Determine the length of the progress bar
+    bar_length = 40
+    filled_length = int(bar_length * current // total)
+    
+    # Create the progress bar
+    bar = '█' * filled_length + '▒' * (bar_length - filled_length)
+    
+    # Prepare the message to display
+    progress_message = f"\r{current}/{total} {bar} {percent_complete:.1f}% - Gathering {files_download} {'file' if files_download == 1 else 'files'} and data of '{filename}'                                            "
+    
+    # Write the progress message to standard output
+    sys.stdout.write(progress_message)
     sys.stdout.flush()
 
 # Main script
@@ -121,9 +137,9 @@ if __name__ == '__main__':
     JWT_TOKEN = load_jwt_token('JWT_TOKEN')
 
     if(testing > 0):
-        print(f"Limit export of {testing} equipment. Change in the code to any other integer or to 0 if you want to export everything.")
+        print(f"Limit export of {testing} equipment. Change in the code to any other integer or to 0 if you want to export everything.\n")
     else:
-        print(f"Reading database, export everything.")
+        print(f"Reading database, export everything.\n")
 
     root_folder = 'equipmentDump'
     os.makedirs(root_folder, exist_ok=True)  # Create root directory
@@ -139,6 +155,7 @@ if __name__ == '__main__':
 
     last_request_time = time.time()  # Initialize the last request time
 
+    print(f"Collecting equipment data and creating files…")
 
     for index, item in enumerate(equipment_items, start=1):
         equipment_name = safe_filename(item.get('name', 'Unknown'))
@@ -165,7 +182,7 @@ if __name__ == '__main__':
             folder_path = os.path.join(root_folder, "_archived", folder_name)
         os.makedirs(folder_path, exist_ok=True)
 
-        # Get additional details that is not delivered by "Get equipment collection" call
+        # Get additional details that is not delivered by "{BASE_URL}/equipment" call
         item_details = get_equipment(equipment_id)
         # item["country_of_origin"] = item_details["data"]["country_of_origin"]  # country_of_origin is not available somehow
         item["current_quantity_excl_cases"] = item_details["data"]["current_quantity_excl_cases"]
@@ -185,7 +202,6 @@ if __name__ == '__main__':
             time.sleep(0.1 - elapsed)
         last_request_time = time.time()
 
-
         # Download and save file URLs
         files_data = get_equipment_files(equipment_id)
         files_list = []
@@ -198,7 +214,7 @@ if __name__ == '__main__':
                     files_list.append({'filename': filename, 'local_path': os.path.join(folder_name, filename), 'original_url': file_url, 'data': file})
 
         # Update progress
-        update_progress(index, len(equipment_items), len(files_list))
+        update_progress(index, len(equipment_items), len(files_list), equipment_name)
 
         # Update JSON with file data
         with open(data_file_path, 'w') as f:
@@ -247,4 +263,4 @@ if __name__ == '__main__':
     # Finish progress
     sys.stdout.write('\n')
     sys.stdout.flush()
-    print("Data collection complete.")
+    print(f"\nData collection of {len(equipment_items)} equipment pieces complete 🥳")
