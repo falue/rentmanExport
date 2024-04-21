@@ -70,6 +70,7 @@ Also, an "equipmentDump/_archived" is created which contains all archived equipm
 - File PDFs are potentially not downloaded
 - Cannot be imported again to rentman
 - It is not saved which Image is the main image
+- No special treatment for "sets" of other equipment
 - "Custom fields" are not queryable, you'll need to change the list in the code to your liking if you want to output them properly.
 
 ## Prerequisite for PDF conversion:
