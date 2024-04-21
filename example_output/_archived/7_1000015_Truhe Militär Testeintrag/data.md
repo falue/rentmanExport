@@ -63,6 +63,9 @@ Kategorie: › .
 - **tags**: holz, kiste, militär, transport, truhe, verpackung
 - **updateHash**: e5cba6a7bbe286a6fff388ac6a717d7e
 - **folder_path**: .
+- **current_quantity_excl_cases**: 1
+- **current_quantity**: 1
+- **quantity_in_cases**: 0
 
 ## Files (1)
 ![File](<../7_1000015_Truhe Militär Testeintrag/78374rm4_funduscatourne_326_1000032890.jpg>)
@@ -71,4 +74,4 @@ Local Image: [78374rm4_funduscatourne_326_1000032890.jpg](<../7_1000015_Truhe Mi
 
 
 ---
-<br><br><sub><sup>Export Date: 21.04.2024 - 16:21</sub></sup>
+<br><br><sub><sup>Export Date: 21.04.2024 - 22:01</sub></sup>

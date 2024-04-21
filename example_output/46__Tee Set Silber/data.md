@@ -63,6 +63,9 @@ Kategorie: › REQUISITEN › Geschirr
 - **tags**: kännchen, krug, milchkännchen, nidelhafen, rahmhafen, rahmkännchen, silber, teegeschirr, teekrug, teeservice, zuckerdose, zuckerschale
 - **updateHash**: 6c7f3ff73868371e9deb4a9a38734d5a
 - **folder_path**: REQUISITEN/Geschirr
+- **current_quantity_excl_cases**: 1
+- **current_quantity**: 1
+- **quantity_in_cases**: 0
 
 ## Files (0)
 
@@ -70,4 +73,4 @@ Kategorie: › REQUISITEN › Geschirr
 
 
 ---
-<br><br><sub><sup>Export Date: 21.04.2024 - 15:58</sub></sup>
+<br><br><sub><sup>Export Date: 21.04.2024 - 22:03</sub></sup>

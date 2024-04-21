@@ -63,6 +63,9 @@ Kategorie: › REQUISITEN › Spielsachen
 - **tags**: 1930, 1940, 1950, antik, brettspiel, lotto, spiel
 - **updateHash**: d26ed68d13d516d84be003d80ab5833b
 - **folder_path**: REQUISITEN/Spielsachen
+- **current_quantity_excl_cases**: 1
+- **current_quantity**: 1
+- **quantity_in_cases**: 0
 
 ## Files (2)
 ![File](<../17_1000034_Lotto antik/78374rm4_funduscatourne_432_photo-30.jpg>)
@@ -75,4 +78,4 @@ Local Image: [78374rm4_funduscatourne_433_photo-31.jpg](<../17_1000034_Lotto ant
 
 
 ---
-<br><br><sub><sup>Export Date: 21.04.2024 - 15:57</sub></sup>
+<br><br><sub><sup>Export Date: 21.04.2024 - 22:01</sub></sup>

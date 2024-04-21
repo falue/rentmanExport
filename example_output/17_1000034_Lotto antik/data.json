@@ -56,7 +56,10 @@
         "qrcodes_of_serial_numbers": "1000033",
         "tags": "1930, 1940, 1950, antik, brettspiel, lotto, spiel",
         "updateHash": "d26ed68d13d516d84be003d80ab5833b",
-        "folder_path": "REQUISITEN/Spielsachen"
+        "folder_path": "REQUISITEN/Spielsachen",
+        "current_quantity_excl_cases": 1,
+        "current_quantity": 1,
+        "quantity_in_cases": 0
     },
     "files": [
         {
@@ -87,7 +90,7 @@
                 "file_itemtype": "",
                 "path": "equipment/704_Lotto antik/photo-30.jpg",
                 "url": "https://s3-eu-west-1.amazonaws.com/rentman-production/78374%2Frm4_funduscatourne_432_photo-30.jpg",
-                "proxy_url": "https://redirect.rentman.net/file.php?file=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJidWNrZXRuYW1lIjoicmVudG1hbi1wcm9kdWN0aW9uIiwiZnVsbG5hbWUiOiI3ODM3NFwvcm00X2Z1bmR1c2NhdG91cm5lXzQzMl9waG90by0zMC5qcGciLCJpYXQiOjE3MTM3MDc4MjUsImV4cCI6MTcxMzcwODQyNX0.H0U2tQPpOQoKLXA2csZlXHYNMFeZlKyIVywgjxPst1M",
+                "proxy_url": "https://redirect.rentman.net/file.php?file=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJidWNrZXRuYW1lIjoicmVudG1hbi1wcm9kdWN0aW9uIiwiZnVsbG5hbWUiOiI3ODM3NFwvcm00X2Z1bmR1c2NhdG91cm5lXzQzMl9waG90by0zMC5qcGciLCJpYXQiOjE3MTM3Mjk3MTcsImV4cCI6MTcxMzczMDMxN30.c3vBBDFL-kPufcZlWKwOYYbsmnyk0sS4ThZW5cu6K5w",
                 "updateHash": "06f2135ad554fffd3acf355622320d4d"
             }
         },
@@ -119,7 +122,7 @@
                 "file_itemtype": "",
                 "path": "equipment/704_Lotto antik/photo-31.jpg",
                 "url": "https://s3-eu-west-1.amazonaws.com/rentman-production/78374%2Frm4_funduscatourne_433_photo-31.jpg",
-                "proxy_url": "https://redirect.rentman.net/file.php?file=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJidWNrZXRuYW1lIjoicmVudG1hbi1wcm9kdWN0aW9uIiwiZnVsbG5hbWUiOiI3ODM3NFwvcm00X2Z1bmR1c2NhdG91cm5lXzQzM19waG90by0zMS5qcGciLCJpYXQiOjE3MTM3MDc4MjUsImV4cCI6MTcxMzcwODQyNX0.6huqpwGolLRAcjDbrpaCUMLDkMPht5B5l-LYQ-_fgjE",
+                "proxy_url": "https://redirect.rentman.net/file.php?file=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJidWNrZXRuYW1lIjoicmVudG1hbi1wcm9kdWN0aW9uIiwiZnVsbG5hbWUiOiI3ODM3NFwvcm00X2Z1bmR1c2NhdG91cm5lXzQzM19waG90by0zMS5qcGciLCJpYXQiOjE3MTM3Mjk3MTcsImV4cCI6MTcxMzczMDMxN30.xnpeoqc6o6OV9aR3C0qbdzZU6lMlyW7v1AiJwxn617A",
                 "updateHash": "03700000e07e1ea6490004d9eb919a32"
             }
         }

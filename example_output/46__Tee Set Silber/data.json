@@ -56,7 +56,10 @@
         "qrcodes_of_serial_numbers": "",
         "tags": "k\u00e4nnchen, krug, milchk\u00e4nnchen, nidelhafen, rahmhafen, rahmk\u00e4nnchen, silber, teegeschirr, teekrug, teeservice, zuckerdose, zuckerschale",
         "updateHash": "6c7f3ff73868371e9deb4a9a38734d5a",
-        "folder_path": "REQUISITEN/Geschirr"
+        "folder_path": "REQUISITEN/Geschirr",
+        "current_quantity_excl_cases": 1,
+        "current_quantity": 1,
+        "quantity_in_cases": 0
     },
     "files": []
 }

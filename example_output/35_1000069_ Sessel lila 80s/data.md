@@ -63,6 +63,9 @@ Kategorie: › MÖBEL & GROSSREQUISITEN › Sofas & Sessel
 - **tags**: 1980, gemustert, lila, rosa, samt, sofa, velour, verstellbar, violett
 - **updateHash**: 00e2c1b4922d0f61ff4be104dc2f73bb
 - **folder_path**: MÖBEL & GROSSREQUISITEN/Sofas & Sessel
+- **current_quantity_excl_cases**: 1
+- **current_quantity**: 1
+- **quantity_in_cases**: 0
 
 ## Files (5)
 ![File](<../35_1000069_ Sessel lila 80s/78374rm4_funduscatourne_498_photo-96.jpg>)
@@ -87,4 +90,4 @@ Local Image: [78374rm4_funduscatourne_502_photo-100.jpg](<../35_1000069_ Sessel 
 
 
 ---
-<br><br><sub><sup>Export Date: 21.04.2024 - 15:57</sub></sup>
+<br><br><sub><sup>Export Date: 21.04.2024 - 22:02</sub></sup>

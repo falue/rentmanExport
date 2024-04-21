@@ -56,7 +56,10 @@
         "qrcodes_of_serial_numbers": "",
         "tags": "holz, kiste, milit\u00e4r, transport, truhe, verpackung",
         "updateHash": "e5cba6a7bbe286a6fff388ac6a717d7e",
-        "folder_path": "."
+        "folder_path": ".",
+        "current_quantity_excl_cases": 1,
+        "current_quantity": 1,
+        "quantity_in_cases": 0
     },
     "files": [
         {
@@ -87,7 +90,7 @@
                 "file_itemtype": "",
                 "path": "equipment/694_Truhe Milit\u00e4r (Testeintrag)/1000032890.jpg",
                 "url": "https://s3-eu-west-1.amazonaws.com/rentman-production/78374%2Frm4_funduscatourne_326_1000032890.jpg",
-                "proxy_url": "https://redirect.rentman.net/file.php?file=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJidWNrZXRuYW1lIjoicmVudG1hbi1wcm9kdWN0aW9uIiwiZnVsbG5hbWUiOiI3ODM3NFwvcm00X2Z1bmR1c2NhdG91cm5lXzMyNl8xMDAwMDMyODkwLmpwZyIsImlhdCI6MTcxMzcwOTI3MywiZXhwIjoxNzEzNzA5ODczfQ.Wln5Ij9-8d-f2l1bSMJcH2E_CAXw363zkbWXziluqTU",
+                "proxy_url": "https://redirect.rentman.net/file.php?file=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJidWNrZXRuYW1lIjoicmVudG1hbi1wcm9kdWN0aW9uIiwiZnVsbG5hbWUiOiI3ODM3NFwvcm00X2Z1bmR1c2NhdG91cm5lXzMyNl8xMDAwMDMyODkwLmpwZyIsImlhdCI6MTcxMzcyOTY4NiwiZXhwIjoxNzEzNzMwMjg2fQ.M2clMYh74s4vlDvBXkUtgAYimYcIswI5UjxyIM52F6g",
                 "updateHash": "0da6c752c236ec51c1221a49e836e421"
             }
         }

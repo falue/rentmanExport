@@ -56,7 +56,10 @@
         "qrcodes_of_serial_numbers": "1000070",
         "tags": "1980, gemustert, lila, rosa, samt, sofa, velour, verstellbar, violett",
         "updateHash": "00e2c1b4922d0f61ff4be104dc2f73bb",
-        "folder_path": "M\u00d6BEL & GROSSREQUISITEN/Sofas & Sessel"
+        "folder_path": "M\u00d6BEL & GROSSREQUISITEN/Sofas & Sessel",
+        "current_quantity_excl_cases": 1,
+        "current_quantity": 1,
+        "quantity_in_cases": 0
     },
     "files": [
         {
@@ -87,7 +90,7 @@
                 "file_itemtype": "",
                 "path": "equipment/722_Sofa _ Sessel lila 80s/photo-96.jpg",
                 "url": "https://s3-eu-west-1.amazonaws.com/rentman-production/78374%2Frm4_funduscatourne_498_photo-96.jpg",
-                "proxy_url": "https://redirect.rentman.net/file.php?file=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJidWNrZXRuYW1lIjoicmVudG1hbi1wcm9kdWN0aW9uIiwiZnVsbG5hbWUiOiI3ODM3NFwvcm00X2Z1bmR1c2NhdG91cm5lXzQ5OF9waG90by05Ni5qcGciLCJpYXQiOjE3MTM3MDc4NzAsImV4cCI6MTcxMzcwODQ3MH0.rGw0Vf29Bsh01RA82dp_IcX959UusMuONmVGCeiSfkk",
+                "proxy_url": "https://redirect.rentman.net/file.php?file=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJidWNrZXRuYW1lIjoicmVudG1hbi1wcm9kdWN0aW9uIiwiZnVsbG5hbWUiOiI3ODM3NFwvcm00X2Z1bmR1c2NhdG91cm5lXzQ5OF9waG90by05Ni5qcGciLCJpYXQiOjE3MTM3Mjk3NjYsImV4cCI6MTcxMzczMDM2Nn0.-R3FORx51XH-GH4Krt0DoA_7Uncec8eNeDB_0kB9UZw",
                 "updateHash": "d5b0ca1dca3a26ed3471daea1ca33e52"
             }
         },
@@ -119,7 +122,7 @@
                 "file_itemtype": "",
                 "path": "equipment/722_Sofa _ Sessel lila 80s/photo-97.jpg",
                 "url": "https://s3-eu-west-1.amazonaws.com/rentman-production/78374%2Frm4_funduscatourne_499_photo-97.jpg",
-                "proxy_url": "https://redirect.rentman.net/file.php?file=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJidWNrZXRuYW1lIjoicmVudG1hbi1wcm9kdWN0aW9uIiwiZnVsbG5hbWUiOiI3ODM3NFwvcm00X2Z1bmR1c2NhdG91cm5lXzQ5OV9waG90by05Ny5qcGciLCJpYXQiOjE3MTM3MDc4NzAsImV4cCI6MTcxMzcwODQ3MH0.CLcpyPyZ0diuFGJ6eqakFjawWxTmsPoy-d4S-ugCOJ8",
+                "proxy_url": "https://redirect.rentman.net/file.php?file=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJidWNrZXRuYW1lIjoicmVudG1hbi1wcm9kdWN0aW9uIiwiZnVsbG5hbWUiOiI3ODM3NFwvcm00X2Z1bmR1c2NhdG91cm5lXzQ5OV9waG90by05Ny5qcGciLCJpYXQiOjE3MTM3Mjk3NjYsImV4cCI6MTcxMzczMDM2Nn0.04v4MzqXzw2of73nFFOudSxopqy-K57UrZema04pH14",
                 "updateHash": "713be50678a65d747a7b2754b004d1bb"
             }
         },
@@ -151,7 +154,7 @@
                 "file_itemtype": "",
                 "path": "equipment/722_Sofa _ Sessel lila 80s/photo-98.jpg",
                 "url": "https://s3-eu-west-1.amazonaws.com/rentman-production/78374%2Frm4_funduscatourne_500_photo-98.jpg",
-                "proxy_url": "https://redirect.rentman.net/file.php?file=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJidWNrZXRuYW1lIjoicmVudG1hbi1wcm9kdWN0aW9uIiwiZnVsbG5hbWUiOiI3ODM3NFwvcm00X2Z1bmR1c2NhdG91cm5lXzUwMF9waG90by05OC5qcGciLCJpYXQiOjE3MTM3MDc4NzAsImV4cCI6MTcxMzcwODQ3MH0.HyhTAomDGQuuOP0PdndNt9zUc-S3jiS0uiaZ3n2-uVY",
+                "proxy_url": "https://redirect.rentman.net/file.php?file=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJidWNrZXRuYW1lIjoicmVudG1hbi1wcm9kdWN0aW9uIiwiZnVsbG5hbWUiOiI3ODM3NFwvcm00X2Z1bmR1c2NhdG91cm5lXzUwMF9waG90by05OC5qcGciLCJpYXQiOjE3MTM3Mjk3NjYsImV4cCI6MTcxMzczMDM2Nn0.kPWzhG_jwcdc2uz3iupOsKdTTI7bnEXzsyqprljhTJ8",
                 "updateHash": "dda08dbd196252e92e2326a505abc6b1"
             }
         },
@@ -183,7 +186,7 @@
                 "file_itemtype": "",
                 "path": "equipment/722_Sofa _ Sessel lila 80s/photo-99.jpg",
                 "url": "https://s3-eu-west-1.amazonaws.com/rentman-production/78374%2Frm4_funduscatourne_501_photo-99.jpg",
-                "proxy_url": "https://redirect.rentman.net/file.php?file=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJidWNrZXRuYW1lIjoicmVudG1hbi1wcm9kdWN0aW9uIiwiZnVsbG5hbWUiOiI3ODM3NFwvcm00X2Z1bmR1c2NhdG91cm5lXzUwMV9waG90by05OS5qcGciLCJpYXQiOjE3MTM3MDc4NzAsImV4cCI6MTcxMzcwODQ3MH0.h6UOue041qUOZ1_llWQSuKe8pyGQOWmNbtSNoR7FRHc",
+                "proxy_url": "https://redirect.rentman.net/file.php?file=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJidWNrZXRuYW1lIjoicmVudG1hbi1wcm9kdWN0aW9uIiwiZnVsbG5hbWUiOiI3ODM3NFwvcm00X2Z1bmR1c2NhdG91cm5lXzUwMV9waG90by05OS5qcGciLCJpYXQiOjE3MTM3Mjk3NjYsImV4cCI6MTcxMzczMDM2Nn0.7USERDiyDHFl3FCIDRxC1Hl2chxFsIvU5d1My-guXTU",
                 "updateHash": "7a172bb2a72ac67937578e0f1f0f7df5"
             }
         },
@@ -215,7 +218,7 @@
                 "file_itemtype": "",
                 "path": "equipment/722_Sofa _ Sessel lila 80s/photo-100.jpg",
                 "url": "https://s3-eu-west-1.amazonaws.com/rentman-production/78374%2Frm4_funduscatourne_502_photo-100.jpg",
-                "proxy_url": "https://redirect.rentman.net/file.php?file=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJidWNrZXRuYW1lIjoicmVudG1hbi1wcm9kdWN0aW9uIiwiZnVsbG5hbWUiOiI3ODM3NFwvcm00X2Z1bmR1c2NhdG91cm5lXzUwMl9waG90by0xMDAuanBnIiwiaWF0IjoxNzEzNzA3ODcwLCJleHAiOjE3MTM3MDg0NzB9.g8TVbrCvy5mtI_sUWly0jhwUBLGU1bvAFQ7ieRAsPdk",
+                "proxy_url": "https://redirect.rentman.net/file.php?file=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJidWNrZXRuYW1lIjoicmVudG1hbi1wcm9kdWN0aW9uIiwiZnVsbG5hbWUiOiI3ODM3NFwvcm00X2Z1bmR1c2NhdG91cm5lXzUwMl9waG90by0xMDAuanBnIiwiaWF0IjoxNzEzNzI5NzY2LCJleHAiOjE3MTM3MzAzNjZ9.b0sx5rwKyRTVyi-Bt34l9OE60yNKQquRuh0BNOf-Jro",
                 "updateHash": "912acb5c02cb9172d80fdc6cc580ca32"
             }
         }
