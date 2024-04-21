@@ -11,6 +11,9 @@ The images are saved in best possible quality.
 You'll need a JWT_TOKEN, accessible via rentman interface (Configuration > Extensions > API > Connect and then Show Token).
 Put the token in a File named `JWT_TOKEN` (without file extension), put it in the same folder as the python script.
 
+> ⚠️ ***By default this script only outputs the first 10 objects in your equipment collection.***
+If you want to export more or everything change line `18` in `collectEverything.py` appropriately.
+
 ## Test your connection to rentman
 ```
 python3 checkAuth.py
@@ -23,8 +26,8 @@ python3 collectEverything.py
 ```
 
 ## Output
-This script saves all your equipments and files in a folder named "equipmentDump".
-Therein will be created a folder named like this:
+This script saves all your equipment and their files in a folder named "equipmentDump".
+In there, for each piece of equipment will be a folder  created, named like this:
 
 ```
 code_qrcodes_equipment name
@@ -35,7 +38,7 @@ eg.
 ```
 Its name is the "code" and the "qrcode" combined with the hjuman readable title with umlaute and spaces. So don't name equipment with file system conflicting characters (i.e. don't use `&`, `/` or `'`)
 
-*Notice* that the folder name does not include the `ID` of the item, as this is pretty much unusable for search in the rentman frontend and only used internally by them.
+> 📝 *Notice*: that the folder name does not include the `ID` of the item, as this is pretty much unusable for search in the rentman frontend and only used internally by them.
 
 Additional files will be created within that folder. An example output:
 ```
@@ -59,12 +62,12 @@ equipmentDump/
 - The `data.md` contains all the data in a human readable and editable way.
 - The `PDF` contains all the data in a human readable, printable and non-editable way. Also includes a link to the original file location stored on an amazonS3 server by rentman.
 
-Also, an "equipmentDump/_archived" is created which contains all archived equipments.
+Also, an "equipmentDump/_archived" is created which contains all archived equipment.
 
-*Notice*: The speed is slowed to 10 calls a second to not trigger the safety feature by rentman API ("Not more than 20 calls / second"). So it takes a while to export everything.
+> 📝 *Notice*: The speed is slowed to 10 calls a second to not trigger the safety feature by rentman API ("Not more than 20 calls / second"). So it takes a while to export everything.
 
 ## Caveats
-- After querying 300 equipments its cut off, needs work for that <https://api.rentman.net/#section/Introduction/Response-data-limitation>
+- After querying 300 equipment its cut off, needs work for that <https://api.rentman.net/#section/Introduction/Response-data-limitation>
 - "Tasks", "Notes" are not downloaded
 - Label-PDFs associated with equipment is removed from the download. You can change that if you need!
 - File PDFs are potentially not downloaded
