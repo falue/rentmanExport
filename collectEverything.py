@@ -40,7 +40,11 @@ def load_jwt_token(file_path):
 def safe_filename(url):
     """Create a safe filename from a URL."""
     # Extract the file name from the URL, decode any URL-encoded characters
-    filename = urllib.parse.unquote(os.path.basename(url))
+    parsed_url = urllib.parse.urlparse(url)
+    # Extract the file name from the path component of the URL
+    filename = os.path.basename(parsed_url.path)
+    # Decode any URL-encoded characters
+    filename = urllib.parse.unquote(filename)
     # Remove any unsafe characters
     return "".join(c for c in filename if c.isalnum() or c in (' ', '.', '_', '-')).rstrip()
 
