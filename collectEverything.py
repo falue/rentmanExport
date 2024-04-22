@@ -25,13 +25,12 @@ extra_input_fields = {
     "custom_8": "Kategorie"
 }
 
-def load_jwt_token(file_path):
+def load_file_content(file_path):
     try:
         with open(file_path, 'r') as file:
-            JWT_TOKEN = file.read().strip()  # Read the token and strip any extra whitespace
-        return JWT_TOKEN
+            return file.read().strip()  # Read the token and strip any extra whitespace
     except FileNotFoundError:
-        print("The file 'JWT_TOKEN' was not found - create it! Insert the token there.")
+        print(f"The file '{file_path}' was not found.")
         return None
     except Exception as e:
         print(f"An error occurred: {e}")
@@ -138,7 +137,7 @@ def update_progress(current, total, files_download, filename):
 
 # Main script
 if __name__ == '__main__':
-    JWT_TOKEN = load_jwt_token('JWT_TOKEN')
+    JWT_TOKEN = load_file_content('JWT_TOKEN')
 
     if(testing > 0):
         print(f"Limit export of {testing} equipment. Change in the code to any other integer or to 0 if you want to export everything.\n")
@@ -245,6 +244,9 @@ if __name__ == '__main__':
         for file in files_list:
             if(file["data"]["type"].startswith("image/")):
                 md_content += f"![File](<../{file['local_path']}>)\nLocal Image: [{file['filename']}](<../{file['local_path']}>) | <sub><sup>[*Original URL*]({file['original_url']})</sup></sub><br><br>\n\n\n"
+            elif(file['filename'].endswith('.txt') or file['filename'].endswith('.rtf') or file['filename'].endswith('.TXT') or file['filename'].endswith('.RTF')):
+                file_contents = load_file_content(os.path.join(folder_path, file['filename']))
+                md_content += f"Local File: [{file['filename']}](<../{file['local_path']}>) - Content:\n\n> {file_contents}\n\n<sub><sup>[*Original URL*]({file['original_url']})</sup></sub><br><br>\n\n\n"
             else:
                 md_content += f"Local File: [{file['filename']}](<../{file['local_path']}>) | <sub><sup>[*Original URL*]({file['original_url']})</sup></sub><br><br>\n\n\n"
 
