@@ -2,7 +2,7 @@
 
 Because rentman does not allow to export your equipment data in a smart way, this script exports them smart as `json`, `md` and `PDF` to save locally or use it in your own frontend. 
 
-Specifically, the export formats provided by rentman frontend is .xls and .csv - those are missing one important aspect: The Files associated with an equipment (Images, PDFs).
+Specifically, the export formats provided by rentman frontend is .xls and .csv - those are missing one important aspect: The Files associated with an equipment (Images, PDFs, additional files).
 
 The categories with which any equipment is associated is also added to the output.
 
@@ -70,7 +70,6 @@ Also, an "equipmentDump/_archived" is created which contains all archived equipm
 - After querying 300 equipment its cut off, needs work for that <https://api.rentman.net/#section/Introduction/Response-data-limitation>
 - "Tasks", "Notes" are not downloaded
 - Label-PDFs associated with equipment is removed from the download. You can change that if you need!
-- File PDFs are potentially not downloaded
 - Cannot be imported again to rentman
 - It is not saved which Image is the main image
 - No special treatment for "sets" of other equipment
