@@ -15,7 +15,10 @@ JWT_TOKEN = ''  # Create a file called "JWT_TOKEN" (without file extension), put
 # Only export first n of your equipment collection.
 # Set to 0 if you want it all.
 # Note that after 300 equipments some rule imposed by the rentman API will kick in. Needs work for that I guess.
-testing = 10
+testing = 12
+
+# Detailed printouts
+verbose = True
 
 # Caveat: "Custom fields are not queryable." (https://api.rentman.net/#section/Introduction/Custom-fields)
 extra_input_fields = {
@@ -164,6 +167,9 @@ if __name__ == '__main__':
         equipment_name = safe_filename(item.get('name', 'Unknown'))
         equipment_id = item['id']
 
+        if(verbose):
+            print(f"\nCollecting {index}/{len(equipment_items)}: '{equipment_id} - {equipment_name}'")
+
         category_path = item.get('folder', None)  # eg.  "folder": "/folders/55"
         # Add human readable key/value to item - ATTENTION: This is *not* according to specs of rentman
         # in equipment:
@@ -176,6 +182,8 @@ if __name__ == '__main__':
             category_path = os.path.basename(category_path)  # eg. 55
             category_path_human_readable = categories[int(category_path)]["path"]  # Find human readable path in categories
             item["folder_path"] = category_path_human_readable
+            if(verbose):
+                print(f"   Joining additional data from /folders/{{id}} call: {category_path_human_readable}")
         else:
             item["folder_path"] = "."
 
@@ -191,6 +199,12 @@ if __name__ == '__main__':
         item["current_quantity_excl_cases"] = item_details["data"]["current_quantity_excl_cases"]
         item["current_quantity"] = item_details["data"]["current_quantity"]
         item["quantity_in_cases"] = item_details["data"]["quantity_in_cases"]
+        if(verbose):
+            print(f"   Joining additional data from /equipment/{{id}} call:")
+            print(f"      - current_quantity_excl_cases:\t{item['current_quantity_excl_cases']}")
+            print(f"      - current_quantity:\t\t{item['current_quantity']}")
+            print(f"      - quantity_in_cases:\t\t{item['quantity_in_cases']}")
+
 
         # Save all data to JSON
         data_file_path = os.path.join(folder_path, 'data.json')
@@ -212,16 +226,21 @@ if __name__ == '__main__':
             file_url = file.get('url')
             # TODO: Check if manual added PDF to files on an equipment shows up here or not (because labels are saved here, are PDFs and sum such as well?)
             if 'rentman-tempstorage' not in file_url:
+                if(verbose):
+                    print(f"   Getting file: {file_url}")
                 filename = download_file(file_url, folder_path)
                 if filename:  # Check if file was successfully downloaded
                     files_list.append({'filename': filename, 'local_path': os.path.join(folder_name, filename), 'original_url': file_url, 'data': file})
 
-        # Update progress
-        update_progress(index, len(equipment_items), len(files_list), equipment_name)
-
         # Update JSON with file data
         with open(data_file_path, 'w') as f:
             json.dump({'equipment_data': item, 'files': files_list}, f, indent=4)
+        
+        # Update progress
+        if(not verbose):
+            update_progress(index, len(equipment_items), len(files_list), equipment_name)
+        else:
+            print(f"   Created .JSON file: {data_file_path}")
 
         # Create markdown file with all data
         md_content = f"[Ça Tourne Requisit](https://www.catourne.ch)\n\n"
@@ -263,8 +282,15 @@ if __name__ == '__main__':
         with open(md_file_path, 'w') as f:
             f.write(md_content)
 
+        if(verbose):
+            print(f"   Created .MD file:   {md_file_path}")
+
         # Convert .md to .PDF
-        convert_md_to_pdf(md_file_path, os.path.join(folder_path, f"{folder_name}.pdf"), folder_path)
+        pdf_path = os.path.join(folder_path, f"{folder_name}.pdf")
+        convert_md_to_pdf(md_file_path, pdf_path, folder_path)
+
+        if(verbose):
+            print(f"   Created .PDF file:  {pdf_path}")
 
     # Finish progress
     sys.stdout.write('\n')
