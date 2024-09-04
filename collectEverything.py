@@ -5,6 +5,7 @@ import time
 import sys
 import os
 import urllib.parse  # For handling URL to filename conversion
+from urllib.parse import quote
 import pypandoc
 import datetime
 
@@ -73,6 +74,10 @@ def safe_filename_NEW(url):
     # This replaces "ü", spaces, and special characters with percent-encoded values
     safe_encoded_filename = urllib.parse.quote(filename, safe='')
     return safe_encoded_filename
+
+def make_path_url_compatible(path):
+    # Split the path into components, encode each component, and join them back with '/'
+    return '/'.join(quote(part) for part in path.split('/'))
 
 def revert_to_original_filename(safed_filename):
     """Decode a URL-safe filename back to its original form."""
@@ -207,7 +212,14 @@ if __name__ == '__main__':
         else:
             item["folder_path"] = "."
 
-        folder_name = f"{item['code']}_{item['qrcodes']}_{equipment_name}"
+        #folder_name = f"{item['code']}_{item['qrcodes']}_{equipment_name}"
+        ###folder_name = os.path.join(make_path_url_compatible(item["folder_path"]), f"{item['code']}_{item['qrcodes']}_{make_path_url_compatible(equipment_name)}")
+        eq_name = f"{item['code']}_{item['qrcodes']}_{equipment_name}"
+        folder_name = os.path.join(item["folder_path"], eq_name)
+        #'/'.join(quote(folder_name) for folder_name in folder_name.split('/'))
+        #  TODO: make parts of item["folder_path"] url-friendly
+        # folder_name = "".join(c for c in folder_name if c.isalnum() or c in (' ', '.', '_', '-')).rstrip()
+
         folder_path = os.path.join(root_folder, folder_name)
         if(item.get('in_archive')):
             folder_path = os.path.join(root_folder, "_archived", folder_name)
@@ -250,7 +262,7 @@ if __name__ == '__main__':
                     print(f"   Getting file: {file_url}")
                 filename = download_file(file_url, folder_path)
                 if filename:  # Check if file was successfully downloaded
-                    files_list.append({'filename': filename, 'local_path': os.path.join(folder_name, filename), 'original_url': file_url, 'data': file})
+                    files_list.append({'filename': filename, 'local_path': filename, 'original_url': file_url, 'data': file})
 
         # Update JSON with file data
         with open(data_file_path, 'w') as f:
@@ -282,12 +294,12 @@ if __name__ == '__main__':
         md_content += f"\n## Files ({len(files_list)})\n"
         for file in files_list:
             if(file["data"]["type"].startswith("image/")):
-                md_content += f"![File](<../{file['local_path']}>)\nLocal Image: [{file['filename']}](<../{file['local_path']}>) | <sub><sup>[*Original URL*]({file['original_url']})</sup></sub><br><br>\n\n\n"
+                md_content += f"![File](<./{file['local_path']}>)\nLocal Image: [{file['filename']}](<./{file['local_path']}>) | <sub><sup>[*Original URL*]({file['original_url']})</sup></sub><br><br>\n\n\n"
             elif(file['filename'].endswith('.txt') or file['filename'].endswith('.rtf') or file['filename'].endswith('.TXT') or file['filename'].endswith('.RTF')):
                 file_contents = load_file_content(os.path.join(folder_path, file['filename']))
-                md_content += f"Local File: [{file['filename']}](<../{file['local_path']}>) - Content:\n\n> {file_contents}\n\n<sub><sup>[*Original URL*]({file['original_url']})</sup></sub><br><br>\n\n\n"
+                md_content += f"Local File: [{file['filename']}](<./{file['local_path']}>) - Content:\n\n> {file_contents}\n\n<sub><sup>[*Original URL*]({file['original_url']})</sup></sub><br><br>\n\n\n"
             else:
-                md_content += f"Local File: [{file['filename']}](<../{file['local_path']}>) | <sub><sup>[*Original URL*]({file['original_url']})</sup></sub><br><br>\n\n\n"
+                md_content += f"Local File: [{file['filename']}](<./{file['local_path']}>) | <sub><sup>[*Original URL*]({file['original_url']})</sup></sub><br><br>\n\n\n"
 
         if(len(files_list) == 0):
             md_content += f"\n#### *No files for this document.*\n\n"
