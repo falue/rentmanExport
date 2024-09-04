@@ -511,7 +511,9 @@ if __name__ == '__main__':
         # Copy PDF to one folder for easy access if not in archive
         pdf_path_collected = os.path.join("equipmentSheets", f"{eq_name}-sheet.pdf")
         try:
-            if(not item.get('in_archive')):
+            # Dont copy sheet if article is in archive;
+            # ignore sheets without any images OR qr codes
+            if(not item.get('in_archive') and (len(image_list) > 0 or len(serial_numbers) > 0)):
                 shutil.copyfile(pdf_path_sheet, pdf_path_collected)
                 if(verbose):
                     print(f"   - Copied .PDF to {pdf_path_collected}")
