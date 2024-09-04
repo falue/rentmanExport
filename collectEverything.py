@@ -37,7 +37,7 @@ verbose = True
 # Caveat: "Custom fields are not queryable." (https://api.rentman.net/#section/Introduction/Custom-fields)
 extra_input_fields = {
     "custom_1": "Artikelbeschreibung in Englisch",
-    "custom_4": "Bemerkung an Mieter\*in",
+    "custom_4": "Bemerkung an Mieter\\*in",
     "custom_7": "Baujahr",
     "custom_8": "Kategorie"
 }
