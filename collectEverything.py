@@ -4,6 +4,7 @@ import json
 import time
 import sys
 import os
+import contextlib
 import urllib.parse  # For handling URL to filename conversion
 from urllib.parse import quote
 import subprocess
@@ -216,8 +217,11 @@ def generate_qr_code(qr_path, number):
 
 def convert_html_to_pdf(html_path, pdf_path_sheet):
     try:
-        # weasyprint
-        HTML(html_path).write_pdf(pdf_path_sheet)
+        # Make weasyprint silent (subpress all warnings)
+        with open(os.devnull, 'w') as f, contextlib.redirect_stdout(f), contextlib.redirect_stderr(f):
+            # weasyprint
+            # Convert HTML to PDF using WeasyPrint
+            HTML(html_path).write_pdf(pdf_path_sheet)
     except Exception as e:
         print(f"      An error occurred: {e}")
 
