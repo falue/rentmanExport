@@ -351,7 +351,9 @@ if __name__ == '__main__':
         os.makedirs(folder_path, exist_ok=True)
 
         if(not overwrite and os.path.isfile(os.path.join(folder_path, "data.json"))):
-            print(f"   Data already fetched - skipped")
+            if(verbose):
+                print(f"   Data already fetched - skipped")
+            update_progress(index, len(equipment_items), 0, equipment_name)
             continue  # Skip to the next iteration
 
         # Get additional details that is not delivered by "{BASE_URL}/equipment" call
