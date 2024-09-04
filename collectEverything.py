@@ -42,6 +42,9 @@ specific_obj_export = args.id
 # Detailed printouts
 verbose = True
 
+# Re-Download, ecnode etc if folder exists
+overwrite = False
+
 # Caveat: "Custom fields are not queryable." (https://api.rentman.net/#section/Introduction/Custom-fields)
 extra_input_fields = {
     "custom_1": "Artikelbeschreibung in Englisch",
@@ -315,6 +318,10 @@ if __name__ == '__main__':
         if(item.get('in_archive')):
             folder_path = os.path.join(root_folder, "_archived", folder_name)
         os.makedirs(folder_path, exist_ok=True)
+
+        if(not overwrite and os.path.isfile(os.path.join(folder_path, "data.json"))):
+            print(f"   Data already fetched - skipped")
+            continue  # Skip to the next iteration
 
         # Get additional details that is not delivered by "{BASE_URL}/equipment" call
         item_details = get_equipment(equipment_id)
