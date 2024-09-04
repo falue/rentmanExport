@@ -103,14 +103,38 @@ def revert_to_original_filename(safed_filename):
     """Decode a URL-safe filename back to its original form."""
     return urllib.parse.unquote(safed_filename)
 
-# Function to get all equipment
+# Function to get all equipment data with pagination
 def get_all_equipment():
-    url = f"{BASE_URL}/equipment"
+    equipment_data = []
+    limit = 300  # Maximum number of records per request
+    offset = 0   # Start at the first record
+    
     headers = {
         'Authorization': f"Bearer {JWT_TOKEN}"
     }
-    response = requests.get(url, headers=headers)
-    return response.json()
+    
+    while True:
+        # Define the request URL with limit and offset
+        url = f"{BASE_URL}/equipment?limit={limit}&offset={offset}"
+        response = requests.get(url, headers=headers)
+        data = response.json()
+
+        # Check for errors in response
+        if response.status_code != 200:
+            print(f"Error: {response.status_code}, {data.get('message', 'Unknown error')}")
+            break
+        
+        # Add the retrieved data to the list
+        equipment_data.extend(data.get('data', []))
+
+        # Check if there are more records to fetch
+        if len(data.get('data', [])) < limit:
+            break  # No more records to fetch, exit the loop
+
+        # Increase the offset for the next request
+        offset += limit
+
+    return equipment_data
 
 # Function to get specific equipment
 def get_equipment(equipment_id):
@@ -261,13 +285,16 @@ if __name__ == '__main__':
 
     categories = get_categories()  # Retrieve all folders (aka categories)
     equipment_data = get_all_equipment()
+    print(f"Found {len(equipment_data)} articles in DB.")
+    print(f"-------------------------------")
+
     # equipment_items = equipment_data['data']
     if(num_obj_export > 0):
         # Limit to first n equipment items for testing
         #equipment_items = equipment_data['data'][:num_obj_export]
-        equipment_items = equipment_data['data'][start_index:start_index + num_obj_export]
+        equipment_items = equipment_data[start_index:start_index + num_obj_export]
     else:
-        equipment_items = equipment_data['data']
+        equipment_items = equipment_data
 
     last_request_time = time.time()  # Initialize the last request time
 
