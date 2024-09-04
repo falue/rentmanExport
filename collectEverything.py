@@ -15,7 +15,20 @@ JWT_TOKEN = ''  # Create a file called "JWT_TOKEN" (without file extension), put
 # Only export first n of your equipment collection.
 # Set to 0 if you want it all.
 # Note that after 300 equipments some rule imposed by the rentman API will kick in. Needs work for that I guess.
-testing = 12
+start_index = 0  # 0 for starting at first object
+num_obj_export = 4
+
+# Set up argument parsing
+parser = argparse.ArgumentParser(description='Collect data and export files.')
+parser.add_argument('--start', type=int, help='Start index', default=num_obj_export)  # Default start index is 0
+parser.add_argument('--num', type=int, help='Number of objects to export', default=start_index)  # Default number of objects to export is 5
+
+# Parse the arguments
+args = parser.parse_args()
+
+# Assign variables from arguments
+start_index = args.start
+num_obj_export = args.num
 
 # Detailed printouts
 verbose = True
@@ -142,8 +155,8 @@ def update_progress(current, total, files_download, filename):
 if __name__ == '__main__':
     JWT_TOKEN = load_file_content('JWT_TOKEN')
 
-    if(testing > 0):
-        print(f"Limit export of {testing} equipment. Change in the code to any other integer or to 0 if you want to export everything.\n")
+    if(num_obj_export > 0):
+        print(f"Limit export of {num_obj_export} equipment. Change in the code to any other integer or to 0 if you want to export everything.\n")
     else:
         print(f"Reading database, export everything.\n")
 
@@ -153,9 +166,10 @@ if __name__ == '__main__':
     categories = get_categories()  # Retrieve all folders (aka categories)
     equipment_data = get_all_equipment()
     # equipment_items = equipment_data['data']
-    if(testing > 0):
+    if(num_obj_export > 0):
         # Limit to first n equipment items for testing
-        equipment_items = equipment_data['data'][:testing]
+        #equipment_items = equipment_data['data'][:num_obj_export]
+        equipment_items = equipment_data['data'][start_index:start_index + num_obj_export]
     else:
         equipment_items = equipment_data['data']
 
@@ -168,7 +182,12 @@ if __name__ == '__main__':
         equipment_id = item['id']
 
         if(verbose):
-            print(f"\nCollecting {index}/{len(equipment_items)}: '{equipment_id} - {equipment_name}'")
+            #print(f"\nCollecting {index}/{len(equipment_items)}: '{equipment_id} - {equipment_name}'")
+            if(num_obj_export>0):
+                tot_export = start_index+num_obj_export
+            else:
+                tot_export = len(equipment_items)
+            print(f"\nCollecting {start_index+index}/{tot_export}: '{equipment_id} - {equipment_name}'")
 
         category_path = item.get('folder', None)  # eg.  "folder": "/folders/55"
         # Add human readable key/value to item - ATTENTION: This is *not* according to specs of rentman

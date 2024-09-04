@@ -21,8 +21,14 @@ python3 checkAuth.py
 will output `API call successful, yeah!` if it worked, or `API call failed` and some details about why.
 
 ## Use it
+For exporting everything:
 ```
 python3 collectEverything.py
+```
+
+For exporting 10 articles, starting from article nr. 30:
+```
+python3 collectEverything.py --start 30 --num 10
 ```
 
 ## Output
