@@ -459,13 +459,14 @@ if __name__ == '__main__':
             qr_path = os.path.join(folder_path, f"{eq_name}-{number}-qr.svg")
             qr_codes_html += f'<div class="qr"><img src="{eq_name}-{number}-qr.svg" alt=""> {number}</div>\n        '
             generate_qr_code(qr_path, number)
-            print(f"   Created QR code:  {number}")
+            if(verbose):
+                print(f"   Created QR code:  {number}")
 
         # Make equipment sheet html
         html_path = os.path.join(folder_path, f"{eq_name}-sheet.html")
         # Get base file from equipment-sheet.html
         # Read the HTML template into a variable
-        with open('equipmentSheet-template/equipment-sheet.html', 'r') as file:
+        with open('equipment-sheet.html', 'r') as file:
             html_content = file.read()
 
         # Replace the placeholders in the HTML content
