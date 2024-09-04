@@ -4,6 +4,7 @@ node_modules
 /_tools
 /_archive
 /equipmentDump
+/equipmentSheets
 /JWT_TOKEN
 src/auth.js
 src/fb_rules.js
