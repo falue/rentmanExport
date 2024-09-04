@@ -31,6 +31,12 @@ For exporting 10 articles, starting from article nr. 30:
 python3 collectEverything.py --start 30 --num 10
 ```
 
+For exporting one specific article, use arg `id`:
+```
+python3 collectEverything.py --id 200
+```
+This exports only the article with "Code" 200 ("Code" is what rentman calls their unique identifier).
+
 ## Output
 This script saves all your equipment and their files in a folder named "equipmentDump".
 In there, for each piece of equipment will be a folder  created, named like this:

@@ -24,6 +24,7 @@ num_obj_export = 4
 parser = argparse.ArgumentParser(description='Collect data and export files.')
 parser.add_argument('--start', type=int, help='Start index', default=num_obj_export)  # Default start index is 0
 parser.add_argument('--num', type=int, help='Number of objects to export', default=start_index)  # Default number of objects to export is 5
+parser.add_argument('--id', type=int, help='Specific equipment to export', default=0)  # 
 
 # Parse the arguments
 args = parser.parse_args()
@@ -31,6 +32,7 @@ args = parser.parse_args()
 # Assign variables from arguments
 start_index = args.start
 num_obj_export = args.num
+specific_obj_export = args.id
 
 # Detailed printouts
 verbose = True
@@ -163,6 +165,8 @@ if __name__ == '__main__':
 
     if(num_obj_export > 0):
         print(f"Limit export of {num_obj_export} equipment. Change in the code to any other integer or to 0 if you want to export everything.\n")
+    elif(specific_obj_export > 0):
+        print(f"Fetch only object with code {specific_obj_export}\n")
     else:
         print(f"Reading database, export everything.\n")
 
@@ -186,6 +190,10 @@ if __name__ == '__main__':
     for index, item in enumerate(equipment_items, start=1):
         equipment_name = safe_filename(item.get('name', 'Unknown'))
         equipment_id = item['id']
+
+        if(specific_obj_export > 0 and int(item['code']) != specific_obj_export):
+            # print(f"{specific_obj_export} is not {item['code']}")
+            continue  # Skip to the next iteration
 
         if(verbose):
             #print(f"\nCollecting {index}/{len(equipment_items)}: '{equipment_id} - {equipment_name}'")
@@ -327,4 +335,7 @@ if __name__ == '__main__':
     # Finish progress
     sys.stdout.write('\n')
     sys.stdout.flush()
-    print(f"\nData collection of {len(equipment_items)} equipment pieces complete 🥳")
+    if(specific_obj_export > 0):
+        print(f"Fetched only object with code {specific_obj_export} 🥳")
+    else:
+        print(f"\nData collection of {len(equipment_items)} equipment pieces complete 🥳")
