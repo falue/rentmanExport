@@ -42,8 +42,8 @@ specific_obj_export = args.id
 # Detailed printouts
 verbose = True
 
-# Re-Download, ecnode etc if folder exists
-overwrite = False
+# Re-Download, encode etc if file data.json exists
+overwrite = True
 
 # Caveat: "Custom fields are not queryable." (https://api.rentman.net/#section/Introduction/Custom-fields)
 extra_input_fields = {
