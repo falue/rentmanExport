@@ -240,7 +240,7 @@ def compress_pdf(input_path, density=150, quality=85):
         os.remove(input_path)
         # Rename compressed file to original file
         os.rename(output_path, input_path)
-        print(f"PDF compressed successfully and saved as itself")
+        # print(f"PDF compressed successfully and saved as itself")
     except subprocess.CalledProcessError as e:
         print(f"An error occurred while compressing the PDF: {e}")
     except FileNotFoundError:
