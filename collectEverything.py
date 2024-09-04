@@ -6,8 +6,13 @@ import sys
 import os
 import urllib.parse  # For handling URL to filename conversion
 from urllib.parse import quote
+import subprocess
+import qrcode
+import qrcode.image.svg
 import pypandoc
 import datetime
+import shutil
+from weasyprint import HTML
 
 
 # Constants for the API endpoints
@@ -57,6 +62,16 @@ def load_file_content(file_path):
         return None
     
 def safe_filename(url):
+    """Create a safe filename from a NAME by replacing spaces, slashes, and other special characters with underscores."""
+    # Extract the file name from the URL
+    filename = os.path.basename(urllib.parse.urlparse(url).path)
+    # Replace spaces and slashes with underscores
+    filename = filename.replace(' ', '_').replace('/', '_').replace('\\', '_')
+    # Remove any characters that are not alphanumeric, underscore, hyphen, dot, or special characters like äöü
+    safe_filename = "".join(c if c.isalnum() or c in ('_', '-', '.', 'ä', 'ö', 'ü') else '_' for c in filename).rstrip()
+    return safe_filename
+    
+def safe_filename_OLD(url):
     """Create a safe filename from a URL."""
     # Extract the file name from the URL, decode any URL-encoded characters
     parsed_url = urllib.parse.urlparse(url)
@@ -137,6 +152,74 @@ def convert_md_to_pdf(md_file_path, output_pdf_path, resource_path):
         pypandoc.convert_file(md_file_path, 'pdf', outputfile=output_pdf_path, extra_args=(["-V", "papersize:a4", "-V", "geometry:margin=1.5cm", f"--resource-path={resource_path}", "--embed-resources", "--standalone"]))
     except Exception as e:
         print("\nAn error occurred while generating PDF; skipping:", e)
+
+def generate_qr_code(qr_path, number):
+    """
+    Generates a QR code SVG image for the provided number.
+
+    Args:
+    qr_path (str): The file path where the QR code SVG will be saved.
+    number (str): The number to encode in the QR code.
+
+    Returns:
+    None. Saves the QR code image as an SVG file.
+    """
+    # Set the factory to create an SVG image
+    svg_factory = qrcode.image.svg.SvgPathImage
+
+    # Create a QRCode object with SVG support
+    qr = qrcode.QRCode(
+        version=1,  # Controls the size of the QR Code
+        error_correction=qrcode.constants.ERROR_CORRECT_H,  # High error correction level
+        box_size=10,
+        border=4,
+        image_factory=svg_factory
+    )
+
+    # Add data to the QR Code
+    qr.add_data(number)
+    qr.make(fit=True)
+
+    # Create an SVG image from the QR Code instance
+    img = qr.make_image(fill_color="black", back_color="white")
+
+    # Save the SVG image to the specified path
+    img.save(qr_path)
+    #print(f"QR code generated and saved at '{qr_path}'.")
+
+def convert_html_to_pdf(html_path, pdf_path_sheet):
+    try:
+        # weasyprint
+        HTML(html_path).write_pdf(pdf_path_sheet)
+    except Exception as e:
+        print(f"      An error occurred: {e}")
+
+
+def compress_pdf(input_path, density=150, quality=85):
+    # Define the command and its arguments
+    output_path = input_path+"-compressed.pdf"
+    command = [
+        'convert',        # ImageMagick convert command
+        '-density', str(density),  # Set the density (resolution) to 150 DPI
+        '-quality', str(quality),  # Set the output quality to 85%
+        input_path,        # Input PDF file path
+        output_path        # Output compressed PDF file path
+    ]
+    
+    try:
+        # Execute the command
+        subprocess.run(command, check=True)
+        # Remove original
+        os.remove(input_path)
+        # Rename compressed file to original file
+        os.rename(output_path, input_path)
+        print(f"PDF compressed successfully and saved as itself")
+    except subprocess.CalledProcessError as e:
+        print(f"An error occurred while compressing the PDF: {e}")
+    except FileNotFoundError:
+        print("ImageMagick's 'convert' command was not found. Please ensure it is installed and accessible.")
+
+   
 
 # Function to update the progress in the console
 def update_progress(current, total, files_download, filename):
@@ -300,8 +383,10 @@ if __name__ == '__main__':
             else:
                 md_content += f"- **{key}**: {value}\n"
         md_content += f"\n## Files ({len(files_list)})\n"
+        image_list = []
         for file in files_list:
             if(file["data"]["type"].startswith("image/")):
+                image_list.append(file['local_path'])
                 md_content += f"![File](<./{file['local_path']}>)\nLocal Image: [{file['filename']}](<./{file['local_path']}>) | <sub><sup>[*Original URL*]({file['original_url']})</sup></sub><br><br>\n\n\n"
             elif(file['filename'].endswith('.txt') or file['filename'].endswith('.rtf') or file['filename'].endswith('.TXT') or file['filename'].endswith('.RTF')):
                 file_contents = load_file_content(os.path.join(folder_path, file['filename']))
@@ -326,11 +411,79 @@ if __name__ == '__main__':
             print(f"   Created .MD file:   {md_file_path}")
 
         # Convert .md to .PDF
-        pdf_path = os.path.join(folder_path, f"{folder_name}.pdf")
+        pdf_path = os.path.join(folder_path, f"{eq_name}.pdf")
         convert_md_to_pdf(md_file_path, pdf_path, folder_path)
+        # compress_pdf(pdf_path, 125, 5)
 
         if(verbose):
             print(f"   Created .PDF file:  {pdf_path}")
+
+        # Create QRCODE svg from euqipment serial number
+        serial_numbers = [num.strip() for num in item['qrcodes_of_serial_numbers'].split(",") if num.strip()]
+        qr_codes_html = ""
+        for number in serial_numbers:
+            qr_path = os.path.join(folder_path, f"{eq_name}-{number}-qr.svg")
+            qr_codes_html += f'<div class="qr"><img src="{eq_name}-{number}-qr.svg" alt=""> {number}</div>\n        '
+            generate_qr_code(qr_path, number)
+            print(f"   Created QR code:  {number}")
+
+        # Make equipment sheet html
+        html_path = os.path.join(folder_path, f"{eq_name}-sheet.html")
+        # Get base file from equipment-sheet.html
+        # Read the HTML template into a variable
+        with open('equipmentSheet-template/equipment-sheet.html', 'r') as file:
+            html_content = file.read()
+
+        # Replace the placeholders in the HTML content
+        """
+            %%name%% => item['displayname']
+            %%img_1%% => if(len(image_list) > 0) image_list[0]
+            %%img_2%% => if(len(image_list) > 1) image_list[1]
+            %%amount%% => len(serial_numbers)
+            %%code%% => item['code']
+            %%length%% => item['length']
+            %%width%% => item['width']
+            %%height%% => item['height']
+            %%qr_codes%% => qr_codes_html
+        """
+        html_content = html_content.replace('%%name%%', item['displayname'])
+        if(len(image_list) > 0):
+            html_content = html_content.replace('%%img%%', image_list[0])
+        """ if(len(image_list) > 1):
+            html_content = html_content.replace('%%img_2%%', image_list[1]) """
+        html_content = html_content.replace('%%amount%%', str(len(serial_numbers)))
+        html_content = html_content.replace('%%code%%', item['code'])
+        html_content = html_content.replace('%%length%%', str(item['length']))
+        html_content = html_content.replace('%%width%%', str(item['width']))
+        html_content = html_content.replace('%%height%%', str(item['height']))
+        html_content = html_content.replace('%%qr_codes%%', qr_codes_html)
+        # Fill new file
+        with open(html_path, 'w') as file:
+            file.write(html_content)
+        if(verbose):
+            print(f"   Created .HTML equipment sheet file:  {html_path}")
+        
+        # Make equipment sheet pdf from html
+        pdf_path_sheet = os.path.join(folder_path, f"{eq_name}-sheet.pdf")
+        convert_html_to_pdf(html_path, pdf_path_sheet)
+        if(verbose):
+            print(f"   Created .PDF from equipment sheet .html file:  {pdf_path_sheet}")
+            
+        # Reduce file size of PDF
+        compress_pdf(pdf_path_sheet, 125, 5)
+        if(verbose):
+            print(f"   - Resized .PDF")
+
+        # Copy PDF to one folder for easy access if not in archive
+        pdf_path_collected = os.path.join("equipmentSheets", f"{eq_name}-sheet.pdf")
+        try:
+            if(not item.get('in_archive')):
+                shutil.copyfile(pdf_path_sheet, pdf_path_collected)
+                if(verbose):
+                    print(f"   - Copied .PDF to {pdf_path_collected}")
+        except Exception as e:
+            print(f"   - An error occurred: {e} - Maybe folder 'equipmentSheets' in root is missing?")
+
 
     # Finish progress
     sys.stdout.write('\n')
