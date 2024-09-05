@@ -1,5 +1,20 @@
 #!/bin/bash
 
+# Function to check authentication and internet connection
+check_auth() {
+    python3 checkAuth.py
+    if [ $? -ne 0 ]; then
+        echo "-------------------------------"
+        echo "🚫 No internet connection or API authentication failed. Please check your connection."
+        echo "-------------------------------"
+        echo " "
+        read -p "Press ENTER to retry…"
+        return 1
+    else
+        return 0
+    fi
+}
+
 # Function to prompt for overwrite confirmation
 prompt_overwrite() {
     while true; do
@@ -67,9 +82,13 @@ prompt_export() {
 }
 
 # Main loop to ensure the script runs again after every execution
+# and to check authentication and run the export process
 while true; do
-    prompt_export
-    echo "Process complete ✅"
-    echo "-------------------------------"
-    echo ""
+    check_auth  # Check internet and authentication
+    if [ $? -eq 0 ]; then
+        prompt_export
+        echo "Process complete ✅"
+        echo "-------------------------------"
+        echo ""
+    fi
 done
