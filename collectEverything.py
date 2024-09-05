@@ -265,10 +265,10 @@ def update_progress(current, total, files_download, filename):
     bar = '█' * filled_length + '▒' * (bar_length - filled_length)
     
     # Prepare the message to display
-    progress_message = f"\r{current}/{total} {bar} {percent_complete:.1f}% - Gathering {files_download} {'file' if files_download == 1 else 'files'} and data of '{filename}'                                            "
-    
-    # Write the progress message to standard output
-    sys.stdout.write(progress_message)
+    progress_message = f"\r{current}/{total} {bar} {percent_complete:.1f}% - Gathering {files_download} {'file' if files_download == 1 else 'files'} and data of '{filename}'"
+
+    # Write the progress message to standard output and clear the rest of the line
+    sys.stdout.write(progress_message + "\033[K")
     sys.stdout.flush()
 
 # Main script
