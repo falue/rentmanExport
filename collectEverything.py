@@ -31,6 +31,8 @@ parser = argparse.ArgumentParser(description='Collect data and export files.')
 parser.add_argument('--start', type=int, help='Start index', default=num_obj_export)  # Default start index is 0
 parser.add_argument('--num', type=int, help='Number of objects to export', default=start_index)  # Default number of objects to export is 5
 parser.add_argument('--id', type=int, help='Specific equipment to export', default=0)  # 
+parser.add_argument('--verbose', action='store_true', help='Print all the details of the export')
+parser.add_argument('--overwrite', action='store_true', help='Overwrite existing files')
 
 # Parse the arguments
 args = parser.parse_args()
@@ -39,12 +41,8 @@ args = parser.parse_args()
 start_index = args.start
 num_obj_export = args.num
 specific_obj_export = args.id
-
-# Detailed printouts
-verbose = True
-
-# Re-Download, encode etc if file data.json exists
-overwrite = True
+overwrite = args.overwrite  # Re-Download, encode etc if file data.json exists
+verbose = args.verbose
 
 # Caveat: "Custom fields are not queryable." (https://api.rentman.net/#section/Introduction/Custom-fields)
 extra_input_fields = {
