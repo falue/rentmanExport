@@ -60,7 +60,11 @@ prompt_export() {
                     elif [[ "$article_id" =~ ^[Nn]$ ]]; then
                         # User chooses not to export a specific article, ask for range
                         while true; do
-                            read -p "Export range? from-to: " range
+                            read -p "Export range? from-to or leave empty to abort: " range
+                            # Check if input is empty
+                            if [[ -z "$range" ]]; then
+                                return 0  # Exit this function and return to the main loop to start over
+                            fi
                             if [[ "$range" =~ ^[0-9]+-[0-9]+$ ]]; then
                                 # Extract the 'from' and 'to' values
                                 IFS='-' read -r start end <<< "$range"
