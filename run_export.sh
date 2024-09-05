@@ -3,6 +3,14 @@
 # Change to the directory where the script is located
 cd "$(dirname "$0")"
 
+# ANSI escape codes for colors and formatting
+BLUE_BG_WHITE_TEXT="\033[44;97;30m"  # Blue background, white text
+GREEN_BG_BLACK_TEXT="\033[42;97;1m"  # Green background, black text
+YELLOW_BG_BLACK_TEXT="\033[43;30m"   # Yellow background, black text
+RED_BG_WHITE_TEXT="\033[41;97;1m"    # Red background, white text
+WHITE_BG_BLACK_TEXT="\033[47;30m"    # White background, black text
+RESET="\033[0m"                      # Reset all formatting
+
 # Function to check authentication and internet connection
 check_auth() {
     python3 checkAuth.py
@@ -21,11 +29,12 @@ check_auth() {
 # Function to prompt for overwrite confirmation
 prompt_overwrite() {
     while true; do
-        read -p "  ❔ Overwrite existing files? y/n: " overwrite
+        echo -ne "    ❔ ${RED_BG_WHITE_TEXT} OVERWRITE ${RESET} existing files? ${WHITE_BG_BLACK_TEXT} Y ${RESET}/${WHITE_BG_BLACK_TEXT} N ${RESET}: " 
+        read overwrite
         case $overwrite in
             [Yy]* ) return 0;;  # Overwrite files
             [Nn]* ) return 1;;  # Do not overwrite files
-            * ) echo "  ❌ Invalid input. Please answer y or n.";;
+            * ) echo "    ❌ Invalid input. Please answer y or n.";;
         esac
     done
     echo "  🏃 Running.."
@@ -35,7 +44,8 @@ prompt_overwrite() {
 # Function to prompt for export options
 prompt_export() {
     while true; do
-        read -p "Export everything? y/n: " export_all
+        echo -ne "Export ${BLUE_BG_WHITE_TEXT} EVERYTHING ${RESET}?       ${WHITE_BG_BLACK_TEXT} Y ${RESET}/${WHITE_BG_BLACK_TEXT} N ${RESET}: " 
+        read export_all
         case $export_all in
             [Yy]* )
                 # Prompt for overwrite confirmation
@@ -48,7 +58,8 @@ prompt_export() {
             [Nn]* )
                 # Loop to ask for specific article number or range
                 while true; do
-                    read -p "Export specific article? number/n: " article_id
+                    echo -ne "Export ${GREEN_BG_BLACK_TEXT} SPECIFIC ${RESET} article? ${WHITE_BG_BLACK_TEXT} NUMBER ${RESET}/${WHITE_BG_BLACK_TEXT} N ${RESET}: " 
+                    read article_id
                     if [[ "$article_id" =~ ^[0-9]+$ ]]; then
                         # User entered a specific article number
                         if prompt_overwrite; then
@@ -60,7 +71,8 @@ prompt_export() {
                     elif [[ "$article_id" =~ ^[Nn]$ ]]; then
                         # User chooses not to export a specific article, ask for range
                         while true; do
-                            read -p "Export range? from-to or leave empty to abort: " range
+                            echo -ne "Export ${YELLOW_BG_BLACK_TEXT} RANGE ${RESET}?            ${WHITE_BG_BLACK_TEXT} FROM ${RESET}-${WHITE_BG_BLACK_TEXT} TO ${RESET} or ${WHITE_BG_BLACK_TEXT} ENTER ${RESET} to abort: "
+                            read range
                             # Check if input is empty
                             if [[ -z "$range" ]]; then
                                 return 0  # Exit this function and return to the main loop to start over
@@ -76,14 +88,14 @@ prompt_export() {
                                 fi
                                 return 0  # Exit after successful export
                             else
-                                echo "  ❌ Invalid input. Please enter a valid range in the format 'from-to'."
+                                echo "    ❌ Invalid input. Please enter a valid range in the format 'from-to'."
                             fi
                         done
                     else
-                        echo "  ❌ Invalid input. Please enter a number or 'n'."
+                        echo "    ❌ Invalid input. Please enter a number or 'n'."
                     fi
                 done;;
-            * ) echo "  ❌ Invalid input. Please answer y or n.";;
+            * ) echo "    ❌ Invalid input. Please answer y or n.";;
         esac
     done
 }
