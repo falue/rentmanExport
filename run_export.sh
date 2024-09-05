@@ -4,7 +4,7 @@
 cd "$(dirname "$0")"
 
 # ANSI escape codes for colors and formatting
-BLUE_BG_WHITE_TEXT="\033[44;97;30m"  # Blue background, white text
+BLUE_BG_WHITE_TEXT="\033[44;97;1m"  # Blue background, white text
 GREEN_BG_BLACK_TEXT="\033[42;97;1m"  # Green background, black text
 YELLOW_BG_BLACK_TEXT="\033[43;30m"   # Yellow background, black text
 RED_BG_WHITE_TEXT="\033[41;97;1m"    # Red background, white text
