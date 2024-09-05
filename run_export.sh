@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Change to the directory where the script is located
+cd "$(dirname "$0")"
+
 # Function to check authentication and internet connection
 check_auth() {
     python3 checkAuth.py
