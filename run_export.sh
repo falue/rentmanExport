@@ -110,6 +110,9 @@ prompt_export() {
     done
 }
 
+# Trap Ctrl+C (SIGINT) to restart the script
+trap "echo ' Restarting... Press ENTER to start again '; continue" SIGINT
+
 # Main loop to ensure the script runs again after every execution
 # and to check authentication and run the export process
 while true; do
