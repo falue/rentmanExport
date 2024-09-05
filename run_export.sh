@@ -37,8 +37,6 @@ prompt_overwrite() {
             * ) echo "    ❌ Invalid input. Please answer y or n.";;
         esac
     done
-    echo "  🏃 Running.."
-    echo "-------------------------------"
 }
 
 # Function to prompt for export options
@@ -50,8 +48,12 @@ prompt_export() {
             [Yy]* )
                 # Prompt for overwrite confirmation
                 if prompt_overwrite; then
+                    echo -e "    Press ${WHITE_BG_BLACK_TEXT} CTRL ${RESET} and ${WHITE_BG_BLACK_TEXT} C ${RESET} to abort."
+                    echo "-------------------------------"
                     python3 collectEverything.py  --overwrite
                 else
+                    echo -e "    Press ${WHITE_BG_BLACK_TEXT} CTRL ${RESET} and ${WHITE_BG_BLACK_TEXT} C ${RESET} to abort."
+                    echo "-------------------------------"
                     python3 collectEverything.py
                 fi
                 return 0;;  # Exit after successful export
@@ -63,8 +65,12 @@ prompt_export() {
                     if [[ "$article_id" =~ ^[0-9]+$ ]]; then
                         # User entered a specific article number
                         if prompt_overwrite; then
+                            echo -e "    Press ${WHITE_BG_BLACK_TEXT} CTRL ${RESET} and ${WHITE_BG_BLACK_TEXT} C ${RESET} to abort."
+                            echo "-------------------------------"
                             python3 collectEverything.py  --id "$article_id" --overwrite
                         else
+                            echo -e "    Press ${WHITE_BG_BLACK_TEXT} CTRL ${RESET} and ${WHITE_BG_BLACK_TEXT} C ${RESET} to abort."
+                            echo "-------------------------------"
                             python3 collectEverything.py  --id "$article_id"
                         fi
                         return 0  # Exit after successful export
@@ -82,8 +88,12 @@ prompt_export() {
                                 IFS='-' read -r start end <<< "$range"
                                 num=$((end - start + 1))
                                 if prompt_overwrite; then
+                                    echo -e "    Press ${WHITE_BG_BLACK_TEXT} CTRL ${RESET} and ${WHITE_BG_BLACK_TEXT} C ${RESET} to abort."
+                                    echo "-------------------------------"
                                     python3 collectEverything.py  --start "$start" --num "$num" --overwrite
                                 else
+                                    echo -e "    Press ${WHITE_BG_BLACK_TEXT} CTRL ${RESET} and ${WHITE_BG_BLACK_TEXT} C ${RESET} to abort."
+                                    echo "-------------------------------"
                                     python3 collectEverything.py  --start "$start" --num "$num"
                                 fi
                                 return 0  # Exit after successful export
