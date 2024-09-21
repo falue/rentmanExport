@@ -409,7 +409,8 @@ if __name__ == '__main__':
         if(item.get('in_archive')):
             md_content += f" *(Archiviert)*"
         md_content += "\n\nKategorie: › "
-        md_content += f"{item.get('folder_path', 'Unknown').replace('/', ' › ')}\n\n"
+        categories = f"{item.get('folder_path', 'Unknown').replace('/', ' › ')}\n\n"
+        md_content += categories
         md_content += "\n\n"
         md_content += "## Details\n"
         for key, value in item.items():
