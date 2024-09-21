@@ -486,10 +486,13 @@ if __name__ == '__main__':
             %%qr_codes%% => qr_codes_html
         """
         html_content = html_content.replace('%%name%%', item['displayname'])
-        if(len(image_list) > 0):
-            html_content = html_content.replace('%%img%%', image_list[0])
-        """ if(len(image_list) > 1):
-            html_content = html_content.replace('%%img_2%%', image_list[1]) """
+        # Choose image that is set as poster image by rentman user
+        if(len(image_list) > 0 and len(item['image']) > 0):
+            poster = int(os.path.basename(item['image']))
+            for img in files_list:
+                if poster == img["data"]["id"]:
+                    html_content = html_content.replace('%%img%%', img["local_path"])
+        html_content = html_content.replace('%%categories%%', categories)
         html_content = html_content.replace('%%amount%%', str(len(serial_numbers)))
         html_content = html_content.replace('%%code%%', item['code'])
         html_content = html_content.replace('%%length%%', str(item['length']))
