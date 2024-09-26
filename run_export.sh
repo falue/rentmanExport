@@ -60,9 +60,10 @@ prompt_export() {
             [Nn]* )
                 # Loop to ask for specific article number or range
                 while true; do
-                    echo -ne "Export ${GREEN_BG_BLACK_TEXT} SPECIFIC ${RESET} article? ${WHITE_BG_BLACK_TEXT} NUMBER ${RESET}/${WHITE_BG_BLACK_TEXT} N ${RESET}: " 
+                    echo -ne "Export ${GREEN_BG_BLACK_TEXT} SPECIFIC ${RESET} articles? ${WHITE_BG_BLACK_TEXT} NUMBER,NUMBER,NUMBER,.. ${RESET}/${WHITE_BG_BLACK_TEXT} N ${RESET}: " 
                     read article_id
-                    if [[ "$article_id" =~ ^[0-9]+$ ]]; then
+                    # if [[ "$article_id" =~ ^[0-9]+$ ]]; then
+                    if [[ "$article_id" =~ ^[0-9]+([,][0-9]+)*$ ]]; then
                         # User entered a specific article number
                         if prompt_overwrite; then
                             echo -e "    Press ${WHITE_BG_BLACK_TEXT} CTRL ${RESET} and ${WHITE_BG_BLACK_TEXT} C ${RESET} to abort."
@@ -98,7 +99,7 @@ prompt_export() {
                                 fi
                                 return 0  # Exit after successful export
                             else
-                                echo "    ❌ Invalid input. Please enter a valid range in the format 'from-to'."
+                                echo "    ❌ Invalid input. Please enter a valid range in the format 'from-to' or press enter to skip."
                             fi
                         done
                     else

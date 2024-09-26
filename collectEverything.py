@@ -30,7 +30,7 @@ num_obj_export = 4
 parser = argparse.ArgumentParser(description='Collect data and export files.')
 parser.add_argument('--start', type=int, help='Start index', default=num_obj_export)  # Default start index is 0
 parser.add_argument('--num', type=int, help='Number of objects to export', default=start_index)  # Default number of objects to export is 5
-parser.add_argument('--id', type=int, help='Specific equipment to export', default=0)  # 
+parser.add_argument('--id', type=str, help='Comma-separated list of specific equipment IDs to export', default="")  
 parser.add_argument('--verbose', action='store_true', help='Print all the details of the export')
 parser.add_argument('--overwrite', action='store_true', help='Overwrite existing files')
 
@@ -40,7 +40,7 @@ args = parser.parse_args()
 # Assign variables from arguments
 start_index = args.start
 num_obj_export = args.num
-specific_obj_export = args.id
+specific_obj_export = [int(i) for i in args.id.split(',')] if args.id else []
 overwrite = args.overwrite  # Re-Download, encode etc if file data.json exists
 verbose = args.verbose
 
@@ -277,8 +277,8 @@ if __name__ == '__main__':
 
     if(num_obj_export > 0):
         print(f"Limit export of {num_obj_export} equipment. Change in the code to any other integer or to 0 if you want to export everything.\n")
-    elif(specific_obj_export > 0):
-        print(f"Fetch only object with code {specific_obj_export}\n")
+    elif(specific_obj_export):
+        print(f"Fetch {len(specific_obj_export)} object(s) with code(s) {specific_obj_export}\n")
     else:
         print(f"Reading database, export everything.\n")
 
@@ -306,7 +306,9 @@ if __name__ == '__main__':
         equipment_name = safe_filename(item.get('name', 'Unknown'))
         equipment_id = item['id']
 
-        if(specific_obj_export > 0 and int(item['code']) != specific_obj_export):
+        # if(specific_obj_export > 0 and int(item['code']) != specific_obj_export):
+        if specific_obj_export and int(item['code']) not in specific_obj_export:
+            # Skip if it's not in the list
             # print(f"{specific_obj_export} is not {item['code']}")
             continue  # Skip to the next iteration
 
@@ -322,7 +324,6 @@ if __name__ == '__main__':
         # Add human readable key/value to item - ATTENTION: This is *not* according to specs of rentman
         # in equipment:
         #   "folder": "/folders/55"
-        #
         # in categories:
         #   55: {'id': 55, 'created': '2023-12-09T20: 07: 09+01: 00', 'modified': '2024-02-11T13: 19: 59+01: 00', 'creator': '/crew/33', 'displayname': 'Sideboards', 'parent': '/folders/50', 'name': 'Sideboards', 'order': 10, 'itemtype': 'equipment', 'path': 'MÖBEL & GROSSREQUISITEN/Sideboards', 'updateHash': '84bba838972ede16a4c8ce4ea286d3bc'
 
@@ -409,8 +410,8 @@ if __name__ == '__main__':
         if(item.get('in_archive')):
             md_content += f" *(Archiviert)*"
         md_content += "\n\nKategorie: › "
-        categories = f"{item.get('folder_path', 'Unknown').replace('/', ' › ')}\n\n"
-        md_content += categories
+        category_path_list = f"{item.get('folder_path', 'Unknown').replace('/', ' › ')}\n\n"
+        md_content += category_path_list
         md_content += "\n\n"
         md_content += "## Details\n"
         for key, value in item.items():
@@ -493,7 +494,7 @@ if __name__ == '__main__':
             for img in files_list:
                 if poster == img["data"]["id"]:
                     html_content = html_content.replace('%%img%%', img["local_path"])
-        html_content = html_content.replace('%%categories%%', categories)
+        html_content = html_content.replace('%%categories%%', category_path_list)
         html_content = html_content.replace('%%amount%%', str(len(serial_numbers)))
         html_content = html_content.replace('%%code%%', item['code'])
         html_content = html_content.replace('%%length%%', str(item['length']))
@@ -533,7 +534,7 @@ if __name__ == '__main__':
     # Finish progress
     sys.stdout.write('\n')
     sys.stdout.flush()
-    if(specific_obj_export > 0):
-        print(f"Fetched only object with code {specific_obj_export} 🥳")
+    if(specific_obj_export):
+        print(f"Fetched {len(specific_obj_export)} object(s) with code(s) {specific_obj_export} 🥳")
     else:
         print(f"\nData collection of {len(equipment_items)} equipment pieces complete 🥳")
