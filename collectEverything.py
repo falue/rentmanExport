@@ -24,11 +24,11 @@ JWT_TOKEN = ''  # Create a file called "JWT_TOKEN" (without file extension), put
 # Set to 0 if you want it all.
 # Note that after 300 equipments some rule imposed by the rentman API will kick in. Needs work for that I guess.
 start_index = 0  # 0 for starting at first object
-num_obj_export = 4
+num_obj_to_export = 4
 
 # Set up argument parsing
 parser = argparse.ArgumentParser(description='Collect data and export files.')
-parser.add_argument('--start', type=int, help='Start index', default=num_obj_export)  # Default start index is 0
+parser.add_argument('--start', type=int, help='Start index', default=num_obj_to_export)  # Default start index is 0
 parser.add_argument('--num', type=int, help='Number of objects to export', default=start_index)  # Default number of objects to export is 5
 parser.add_argument('--id', type=str, help='Comma-separated list of specific equipment IDs to export', default="")  
 parser.add_argument('--verbose', action='store_true', help='Print all the details of the export')
@@ -39,10 +39,12 @@ args = parser.parse_args()
 
 # Assign variables from arguments
 start_index = args.start
-num_obj_export = args.num
+num_obj_to_export = args.num
 specific_obj_export = [int(i) for i in args.id.split(',')] if args.id else []
 overwrite = args.overwrite  # Re-Download, encode etc if file data.json exists
 verbose = args.verbose
+
+num_obj_exported = 0
 
 # Caveat: "Custom fields are not queryable." (https://api.rentman.net/#section/Introduction/Custom-fields)
 extra_input_fields = {
@@ -275,8 +277,8 @@ def update_progress(current, total, files_download, filename):
 if __name__ == '__main__':
     JWT_TOKEN = load_file_content('JWT_TOKEN')
 
-    if(num_obj_export > 0):
-        print(f"Limit export of {num_obj_export} equipment. Change in the code to any other integer or to 0 if you want to export everything.\n")
+    if(num_obj_to_export > 0):
+        print(f"Limit export of {num_obj_to_export} equipment. Change in the code to any other integer or to 0 if you want to export everything.\n")
     elif(specific_obj_export):
         print(f"Fetch {len(specific_obj_export)} object(s) with code(s) {specific_obj_export}\n")
     else:
@@ -291,10 +293,10 @@ if __name__ == '__main__':
     print(f"-------------------------------")
 
     # equipment_items = equipment_data['data']
-    if(num_obj_export > 0):
+    if(num_obj_to_export > 0):
         # Limit to first n equipment items for testing
-        #equipment_items = equipment_data['data'][:num_obj_export]
-        equipment_items = equipment_data[start_index:start_index + num_obj_export]
+        #equipment_items = equipment_data['data'][:num_obj_to_export]
+        equipment_items = equipment_data[start_index:start_index + num_obj_to_export]
     else:
         equipment_items = equipment_data
 
@@ -311,11 +313,13 @@ if __name__ == '__main__':
             # Skip if it's not in the list
             # print(f"{specific_obj_export} is not {item['code']}")
             continue  # Skip to the next iteration
+        
+        num_obj_exported += 1
 
         if(verbose):
             #print(f"\nCollecting {index}/{len(equipment_items)}: '{equipment_id} - {equipment_name}'")
-            if(num_obj_export>0):
-                tot_export = start_index+num_obj_export
+            if(num_obj_to_export>0):
+                tot_export = start_index+num_obj_to_export
             else:
                 tot_export = len(equipment_items)
             print(f"\nCollecting {start_index+index}/{tot_export}: '{equipment_id} - {equipment_name}'")
@@ -535,6 +539,9 @@ if __name__ == '__main__':
     sys.stdout.write('\n')
     sys.stdout.flush()
     if(specific_obj_export):
-        print(f"Fetched {len(specific_obj_export)} object(s) with code(s) {specific_obj_export} 🥳")
+        if(num_obj_exported):
+            print(f"Fetched {num_obj_exported} object(s) with code(s) {specific_obj_export} 🥳")
+        else:
+            print(f"Object(s) with code(s) {specific_obj_export} does not exist.")
     else:
         print(f"\nData collection of {len(equipment_items)} equipment pieces complete 🥳")
