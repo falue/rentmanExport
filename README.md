@@ -79,11 +79,9 @@ Also, an "equipmentDump/_archived" is created which contains all archived equipm
 > 📝 *Notice*: The speed is slowed to 10 calls a second to not trigger the safety feature by rentman API ("Not more than 20 calls / second"). So it takes a while to export everything.
 
 ## Caveats
-- After querying 300 equipment its cut off, needs work for that <https://api.rentman.net/#section/Introduction/Response-data-limitation>
+- Cannot be imported again to rentman
 - "Tasks", "Notes" are not downloaded
 - Label-PDFs associated with equipment is removed from the download. You can change that if you need!
-- Cannot be imported again to rentman
-- It is not saved which Image is the main image
 - No special treatment for "sets" of other equipment
 - "Custom fields" are not queryable, you'll need to change the list in the code to your liking if you want to output them properly.
 
