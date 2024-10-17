@@ -493,7 +493,7 @@ if __name__ == '__main__':
         """
         html_content = html_content.replace('%%name%%', item['displayname'])
         # Choose image that is set as poster image by rentman user
-        if(len(image_list) > 0 and len(item['image']) > 0):
+        if(item['image'] and len(image_list) > 0 and len(item['image']) > 0):
             poster = int(os.path.basename(item['image']))
             for img in files_list:
                 if poster == img["data"]["id"]:
