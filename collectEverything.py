@@ -107,7 +107,7 @@ def revert_to_original_filename(safed_filename):
 # Function to get all equipment data with pagination
 def get_all_equipment():
     equipment_data = []
-    limit = 300  # Maximum number of records per request
+    limit = 100  # Maximum number of records per request
     offset = 0   # Start at the first record
     
     headers = {
@@ -116,13 +116,14 @@ def get_all_equipment():
     
     while True:
         # Define the request URL with limit and offset
+        print(f"  {int(offset/limit+1)}. API call to '{BASE_URL}/equipment?limit={limit}&offset={offset}'")
         url = f"{BASE_URL}/equipment?limit={limit}&offset={offset}"
         response = requests.get(url, headers=headers)
         data = response.json()
 
         # Check for errors in response
         if response.status_code != 200:
-            print(f"Error: {response.status_code}, {data.get('message', 'Unknown error')}")
+            print(f"Error: {response.status_code}: {data.get('errorMessage', 'Unknown error')}")
             break
         
         # Add the retrieved data to the list
