@@ -227,30 +227,32 @@ def convert_html_to_pdf(html_path, pdf_path_sheet):
         print(f"      An error occurred: {e}")
 
 
-def compress_pdf(input_path, density=150, quality=85):
-    # Define the command and its arguments
-    output_path = input_path+"-compressed.pdf"
+def compress_pdf(input_path, quality="screen"):
+    """
+    Compress PDF via Ghostscript.
+    quality: one of 'screen', 'ebook', 'printer', 'prepress', 'default'
+    """
+    output_path = input_path + ".tmp.pdf"
     command = [
-        'convert',        # ImageMagick convert command
-        '-density', str(density),  # Set the density (resolution) to 150 DPI
-        '-quality', str(quality),  # Set the output quality to 85%
-        input_path,        # Input PDF file path
-        output_path        # Output compressed PDF file path
+        "gs",
+        "-sDEVICE=pdfwrite",
+        "-dCompatibilityLevel=1.4",
+        f"-dPDFSETTINGS=/{quality}",
+        "-dNOPAUSE",
+        "-dQUIET",
+        "-dBATCH",
+        f"-sOutputFile={output_path}",
+        input_path,
     ]
-    
-    try:
-        # Execute the command
-        subprocess.run(command, check=True)
-        # Remove original
-        os.remove(input_path)
-        # Rename compressed file to original file
-        os.rename(output_path, input_path)
-        # print(f"PDF compressed successfully and saved as itself")
-    except subprocess.CalledProcessError as e:
-        print(f"An error occurred while compressing the PDF: {e}")
-    except FileNotFoundError:
-        print("ImageMagick's 'convert' command was not found. Please ensure it is installed and accessible.")
 
+    try:
+        subprocess.run(command, check=True)
+        os.remove(input_path)
+        os.rename(output_path, input_path)
+    except subprocess.CalledProcessError as e:
+        print(f"An error occurred while compressing the PDF (gs): {e}")
+        if os.path.exists(output_path):
+            os.remove(output_path)
    
 
 # Function to update the progress in the console
@@ -519,7 +521,7 @@ if __name__ == '__main__':
             print(f"   Created .PDF from equipment sheet .html file:  {pdf_path_sheet}")
             
         # Reduce file size of PDF
-        compress_pdf(pdf_path_sheet, 125, 5)
+        compress_pdf(pdf_path_sheet, "screen")
         if(verbose):
             print(f"   - Resized .PDF")
 
